@@ -1,0 +1,24 @@
+This package is distributed under the GNU GENERAL PUBLIC LICENSE Version 2 
+(GPL-2)
+
+The RDP distribution included in this package is distributed under GPL-2.
+Source code can be obtained from 
+http://sourceforge.net/projects/rdp-classifier/
+
+Parts of the RDP distribution are licensed under the following terms:
+inst/java/rdp_classifier.jar	GPL-2
+inst/lib/TaxonomyTree.jar	GPL-2
+inst/lib/ReadSeq.jar		GPL-2
+inst/lib/AlignmentTools.jar	GPL-2
+inst/lib/commons-io-2.4.jar	Apache License, Version 2
+inst/lib/commons-cli-1.2.jar    Apache License, Version 2
+inst/lib/jcommon-1.0.16.jar     LGPL-2.1
+
+A copy of the GNU GENERAL PUBLIC LICENSE, Version 2, June 1991 text can 
+be obtained from: http://www.gnu.org/licenses/gpl-2.0.txt
+
+A copy of the Apache License Version 2 text can be obtained from:
+http://www.apache.org/licenses/LICENSE-2.0.html
+
+A copy of the GNU Lesser General Public License, version 2.1 (LGPL-2.1) text
+can be obtained from: http://www.gnu.org/licenses/lgpl-2.1.html 

@@ -1,0 +1,19 @@
+import(Biostrings)
+
+export( 
+ 	### RDP
+	rdp,
+	trainRDP,	
+	removeRDP,	
+  
+  GenClass16S,
+  encode_Greengenes,
+  decode_Greengenes,
+  encode_RDP,
+  decode_RDP,
+	accuracy,
+  confusionTable
+  )
+
+S3method(print, RDPClassifier)
+S3method(predict, RDPClassifier)

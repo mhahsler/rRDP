@@ -1,0 +1,74 @@
+\name{annotation}
+\alias{GenClass16S}
+\alias{decode_RDP}
+\alias{encode_RDP}
+\alias{decode_Greengenes}
+\alias{encode_Greengenes}
+\title{
+Decoding and Encoding Phylogenetic Classification Annotations
+}
+\description{
+Functions to represent, decode and encode phylogenetic classification annotations
+used in FASTA files by RDP and the Greengenes project.
+}
+\usage{
+GenClass16S(Kingdom=NA, Phylum=NA, Class=NA, Order=NA,
+            Family=NA, Genus=NA, Species=NA, Otu=NA, 
+            Org_name=NA, Id=NA)
+decode_RDP(annotation)
+encode_RDP(classification)
+decode_Greengenes(annotation)
+encode_Greengenes(classification)
+}
+\arguments{
+        \item{Kingdom}{Name of the kingdom to which the organism belongs. }
+        \item{Phylum}{Name of the phylum to which the organism belongs. }
+        \item{Class}{Name of the class to which the organism belongs. }
+        \item{Order}{Name of the order to which the organism belongs. }
+        \item{Family}{Name of the family to which the organism belongs. }
+        \item{Genus}{Name of the genus to which the organism belongs. }
+        \item{Species}{Name of the species to which the organism belongs. }
+        \item{Otu}{Name of the otu to which the organism belongs. }
+        \item{Org_name}{Name of the organism. }
+        \item{Id}{ID of the sequence.}
+        \item{annotation}{Annotation from a FASTA file containing the classification
+        information.}
+        \item{classification}{A \code{data.frame} created with 
+        \code{GenClass16S()} with the classification information.}
+}
+%\details{
+%}
+\value{
+\code{GenClass16S()} and \code{decodeX()} return a \code{data.frame}.
+\code{encodeX()} returns a string with the corresponding annotation.
+}  
+%\references{
+%}
+\examples{
+seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
+	package="rRDP"))
+
+### the FASTA annotation is read as names. This data has a Greengenes format
+### annotation
+names(seq)
+  
+classification <- decode_Greengenes(names(seq))  
+classification
+
+### look at the Genus of all sequences
+classification[, "Genus"]  
+  
+### to train the RDP classifier, the annotations need to be in RDP format
+annotation <- encode_RDP(classification)
+names(seq) <- annotation
+seq  
+
+### now we can train the classifier
+customRDP <- trainRDP(seq)
+customRDP
+  
+## clean up
+removeRDP(customRDP)
+}
+\keyword{model}
+
