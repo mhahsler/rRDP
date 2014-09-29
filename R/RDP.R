@@ -24,7 +24,7 @@
 ### NULL is the default classifier in package rRDPData
 rdp <- function(dir = NULL) {
   if(is.null(dir)) {
-    dir <- system.file("16srrna", package="rRDPData")  
+    dir <- system.file("extdata","16srrna", package="rRDPData")  
     if(dir=="") stop("Install package 'rRDPData' for the trained 16S rRNA classifier.")
   }
   dir <- normalizePath(dir)
@@ -197,6 +197,6 @@ removeRDP <- function(object) {
   if(!.isRDP(object$dir)) stop("The given RDPClassifier/directory does not look valid! Please remove the directory manually!")
   
   ### don't remove the default data
-  if(object$dir != normalizePath(system.file("16srrna", package="rRDPData"))) 
+  if(object$dir != normalizePath(system.file("extdata","16srrna", package="rRDPData"))) 
     unlink(object$dir, recursive=TRUE)
 }
