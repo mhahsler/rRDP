@@ -18,18 +18,18 @@
 
 .get_rdp <- function() system.file("java/rdp_classifier.jar", package="rRDP")
 
-.isRDP <- function(dir) is.null(dir) || 
+.isRDP <- function(dir) is.null(dir) ||
   file.exists(file.path(dir, "wordConditionalProbIndexArr.txt"))
 
 ### NULL is the default classifier in package rRDPData
 rdp <- function(dir = NULL) {
   if(is.null(dir)) {
-    dir <- system.file("extdata","16srrna", package="rRDPData")  
+    dir <- system.file("extdata","16srrna", package="rRDPData")
     if(dir=="") stop("Install package 'rRDPData' for the trained 16S rRNA classifier.")
   }
   dir <- normalizePath(dir)
-  
-  if(!.isRDP(dir)) stop("Not a RDP classifier directory!")	
+
+  if(!.isRDP(dir)) stop("Not a RDP classifier directory!")
   structure(list(dir = dir), class="RDPClassifier")
 }
 
@@ -39,12 +39,27 @@ print.RDPClassifier <- function(x, ...) {
   cat("RDPClassifier\nLocation:", loc, "\n")
 }
 
-predict.RDPClassifier <- function(object, newdata, 
+# from http://stackoverflow.com/a/34031214/470769
+Sys.which2 <- function(cmd) {
+    stopifnot(length(cmd) == 1)
+    if (.Platform$OS.type == "windows") {
+        suppressWarnings({
+            pathname <- shell(sprintf("where %s 2> NUL", cmd), intern=TRUE)[1]
+        })
+        if (!is.na(pathname)) return(stats::setNames(pathname, cmd))
+    }
+    Sys.which(cmd)
+}
+
+.javaExecutable <- function() Sys.which2("java")
+
+
+predict.RDPClassifier <- function(object, newdata,
   confidence=.8, rdp_args="", java_args="-Xmx1g", ...) {
-  
+
   classifier <- object$dir
   x <- newdata
-  
+
   # get temp files and change working directory
   wd <- tempdir()
   dir <- getwd()
@@ -54,66 +69,66 @@ predict.RDPClassifier <- function(object, newdata,
     file.remove(Sys.glob(paste(temp_file, "*", sep="")))
     setwd(dir)
   })
-  
+
   #setwd(wd)
   infile <- paste(temp_file, ".fasta", sep="")
   outfile <- paste(temp_file, "_tax_assignments.txt", sep="")
   ## property?
-  if(!is.null(classifier)) property <- paste("-t", 
+  if(!is.null(classifier)) property <- paste("-t",
     file.path(classifier,"rRNAClassifier.properties"))
   else property <- ""
-  
+
   writeXStringSet(x, infile, append=FALSE)
-  if (system(paste("java", java_args, "-jar", .get_rdp(), "classify", 
+  if (system(paste(dQuote(.javaExecutable()), java_args, "-jar", .get_rdp(), "classify",
     property, "-o", outfile, "-c", confidence, rdp_args, infile),
-    ignore.stdout=TRUE, ignore.stderr=TRUE, intern=FALSE)) 
+    ignore.stdout=TRUE, ignore.stderr=TRUE, intern=FALSE))
     stop("Error executing RDP")
-  
+
   ## read and parse rdp output
-  cl_tab <- read.table(outfile, sep="\t") 
-  
+  cl_tab <- read.table(outfile, sep="\t")
+
   ## remove empty columns
   cl_tab <- cl_tab[!sapply(cl_tab, FUN=function(x) all(is.na(x)))]
-  
+
   seq_names <- cl_tab[,1] ## sequence names are in first column
-  
+
   i <- seq(2, ncol(cl_tab), by=3) ## 3 columns for each tax. level
-  
+
   ## get classification
-  cl <- cl_tab[,i]	
+  cl <- cl_tab[,i]
   dimnames(cl) <- list(seq_names, as.matrix(cl_tab[1,i+1])[1,])
-  
+
   ## get confidence
   conf <- as.matrix(cl_tab[,i+2])
   dimnames(conf) <- list(seq_names, as.matrix(cl_tab[1,i+1])[1,])
-  
+
   ### don't show assignments with too low confidence
   if(confidence>0) cl[conf < confidence] <- NA
-  
-  attr(cl, "confidence") <- conf    
+
+  attr(cl, "confidence") <- conf
   cl
 }
 
-trainRDP <- function(x, dir="classifier", rank="genus", java_args="-Xmx1g") 
+trainRDP <- function(x, dir="classifier", rank="genus", java_args="-Xmx1g")
 {
   if (file.exists(dir)) stop("Classifier directory already exists! Choose a different directory or use removeRDP().")
-  
+
   taxonomyNames <-c("Kingdom","Phylum","Class","Order","Family","Genus","Species")
   rankNumber <- pmatch(tolower(rank),tolower(taxonomyNames))
   dir.create(dir)
   l<-strsplit(names(x),"Root;")
-  # annot is the hierarchy starting from kingdom down to genus (or desired rank)  
+  # annot is the hierarchy starting from kingdom down to genus (or desired rank)
   annot<-sapply(l,FUN=function(x) x[2])
   # Make names of x so that it only has hierarchy info upto the desired rank
   names(x)<-sapply(strsplit(names(x),";"), FUN=function(y) {
     paste(y[1:(rankNumber+1)],collapse=";")
   })
   #get the indices of sequences that are to be removed because they have incomplete hierarchy information
-  removeIdx <- as.integer(sapply(annot, FUN=function(y) { 
-    if(length(unlist(strsplit(y,";")))<rankNumber || grepl(";;",y) 
+  removeIdx <- as.integer(sapply(annot, FUN=function(y) {
+    if(length(unlist(strsplit(y,";")))<rankNumber || grepl(";;",y)
       || grepl("unknown",y)) 1 else 0
   }))
-  
+
   if(any(removeIdx==1)) {
     removeIdx <- which(removeIdx==1)
     #get greengenes ids to be removed
@@ -147,13 +162,13 @@ trainRDP <- function(x, dir="classifier", rank="genus", java_args="-Xmx1g")
         parentTaxId <- previousTaxId
       depth <- j
       rank <- colnames(h)[j]
-      
+
       #search if already there
       if (length(which(m[,2]==taxonName & m[,5]==rank)) == 0) {
         str <- paste(taxId,taxonName,parentTaxId,depth,rank,sep="*")
         m<-rbind(m,unlist(strsplit(str,split="\\*")))
         previousTaxId <- taxId
-      }	
+      }
       else if (length(which(m[,2]==taxonName & m[,5]==rank)) > 0) {
         row <- which(m[,2]==taxonName & m[,5]==rank)
         #error check -> is parent tax id same for both or not?
@@ -167,7 +182,7 @@ trainRDP <- function(x, dir="classifier", rank="genus", java_args="-Xmx1g")
       #end seach
     }
   }
-  
+
   out<-apply(m, MARGIN=1, FUN=function(x) paste(x,collapse="*"))
   write(out, file=file.path(dir, "train.txt"))
   #create parsed training files
@@ -177,26 +192,26 @@ trainRDP <- function(x, dir="classifier", rank="genus", java_args="-Xmx1g")
     x<-x[-badHierarchy]
   }
   writeXStringSet(x,file.path(dir,"train.fasta"))
-  
-  if(system(paste("java", java_args, "-jar", .get_rdp(), "train",
-    "-o", dir, "-t", file.path(dir,"train.txt"), 
-    "-s", file.path(dir, "train.fasta")), 
+
+  if(system(paste(dQuote(.javaExecutable()), java_args, "-jar", .get_rdp(), "train",
+    "-o", dir, "-t", file.path(dir,"train.txt"),
+    "-s", file.path(dir, "train.fasta")),
     ignore.stderr=TRUE, ignore.stdout=TRUE, intern=FALSE)){
     unlink(dir, recursive=TRUE)
     stop("Creating the classifier failed!")
   }
-  
+
   file.copy(system.file("java/rRNAClassifier.properties",
     package="rRDP"), dir)
-  
+
   rdp(dir)
 }
 
 removeRDP <- function(object) {
   ### first check if it looks like a RDP directory!
   if(!.isRDP(object$dir)) stop("The given RDPClassifier/directory does not look valid! Please remove the directory manually!")
-  
+
   ### don't remove the default data
-  if(object$dir != normalizePath(system.file("extdata","16srrna", package="rRDPData"))) 
+  if(object$dir != normalizePath(system.file("extdata","16srrna", package="rRDPData")))
     unlink(object$dir, recursive=TRUE)
 }
