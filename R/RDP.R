@@ -46,7 +46,7 @@ Sys.which2 <- function(cmd) {
         suppressWarnings({
             pathname <- shell(sprintf("where %s 2> NUL", cmd), intern=TRUE)[1]
         })
-        if (!is.na(pathname)) return(stats::setNames(pathname, cmd))
+        if (!is.na(pathname)) return(dQuote(stats::setNames(pathname, cmd)))
     }
     Sys.which(cmd)
 }
@@ -79,7 +79,7 @@ predict.RDPClassifier <- function(object, newdata,
   else property <- ""
 
   writeXStringSet(x, infile, append=FALSE)
-  if (system(paste(dQuote(.javaExecutable()), java_args, "-jar", .get_rdp(), "classify",
+  if (system(paste(.javaExecutable(), java_args, "-jar", .get_rdp(), "classify",
     property, "-o", outfile, "-c", confidence, rdp_args, infile),
     ignore.stdout=TRUE, ignore.stderr=TRUE, intern=FALSE))
     stop("Error executing RDP")
@@ -193,7 +193,7 @@ trainRDP <- function(x, dir="classifier", rank="genus", java_args="-Xmx1g")
   }
   writeXStringSet(x,file.path(dir,"train.fasta"))
 
-  if(system(paste(dQuote(.javaExecutable()), java_args, "-jar", .get_rdp(), "train",
+  if(system(paste(.javaExecutable(), java_args, "-jar", .get_rdp(), "train",
     "-o", dir, "-t", file.path(dir,"train.txt"),
     "-s", file.path(dir, "train.fasta")),
     ignore.stderr=TRUE, ignore.stdout=TRUE, intern=FALSE)){
