@@ -1,7 +1,7 @@
 Package: rRDP
 Title: Interface to the RDP Classifier
 Description: Seamlessly interfaces RDP classifier (version 2.9).
-Version: 1.5.2
+Version: 1.6.0
 Date: 2014-09-19
 Author: Michael Hahsler, Anurag Nagar
 Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
