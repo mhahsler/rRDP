@@ -64,7 +64,7 @@ predict.RDPClassifier <- function(object, newdata,
   wd <- tempdir()
   dir <- getwd()
   temp_file <- tempfile(tmpdir = wd)
-  #temp_file <- "train"
+#  temp_file <- "newdata"
   on.exit({
     file.remove(Sys.glob(paste(temp_file, "*", sep="")))
     setwd(dir)
@@ -80,19 +80,16 @@ predict.RDPClassifier <- function(object, newdata,
 
   writeXStringSet(x, infile, append=FALSE)
   if (system(paste(.javaExecutable(), java_args, "-jar", .get_rdp(), "classify",
-    property, "-o", outfile, "-c", confidence, rdp_args, infile),
+    property, "-o", outfile, "-c", confidence, "-format fixrank", rdp_args, infile),
     ignore.stdout=TRUE, ignore.stderr=TRUE, intern=FALSE))
     stop("Error executing RDP")
 
   ## read and parse rdp output
   cl_tab <- read.table(outfile, sep="\t")
 
-  ## remove empty columns
-  cl_tab <- cl_tab[!sapply(cl_tab, FUN=function(x) all(is.na(x)))]
-
   seq_names <- cl_tab[,1] ## sequence names are in first column
 
-  i <- seq(2, ncol(cl_tab), by=3) ## 3 columns for each tax. level
+  i <- seq(3, ncol(cl_tab), by=3) ## start at col. 3 and use 3 columns for each tax. level
 
   ## get classification
   cl <- cl_tab[,i]
