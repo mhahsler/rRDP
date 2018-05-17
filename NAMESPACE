@@ -1,5 +1,7 @@
 import(Biostrings)
 
+importFrom("utils", "read.table")
+
 export( 
  	### RDP
 	rdp,
