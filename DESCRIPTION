@@ -6,7 +6,7 @@ Date: 2018-05-16
 Author: Michael Hahsler, Anurag Nagar
 Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
 biocViews: Genetics, Sequencing, Infrastructure, Classification,
-        Microbiome
+        Microbiome, ImmunoOncology
 Depends: Biostrings (>= 2.26.2)
 Suggests: rRDPData
 SystemRequirements: Java
