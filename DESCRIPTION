@@ -1,8 +1,8 @@
 Package: rRDP
 Title: Interface to the RDP Classifier
 Description: Seamlessly interfaces RDP classifier (version 2.9).
-Version: 1.23.0
-Date: 2018-05-16
+Version: 1.23.1
+Date: 2020-09-05
 Author: Michael Hahsler, Anurag Nagar
 Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
 biocViews: Genetics, Sequencing, Infrastructure, Classification,
