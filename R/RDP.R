@@ -16,8 +16,17 @@
 # with this program; if not, write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
 
-.get_rdp <- function() system.file("java/rdp_classifier.jar", package="rRDP")
+.get_rdp <- function() {
+  p <- system.file("java/rdp_classifier.jar", package="rRDP")
+  
+  if (.Platform$OS.type == "windows")
+    p <- utils::shortPathName(p)
+  
+  return(p)
+}
 
+  
+  
 .isRDP <- function(dir) is.null(dir) ||
   file.exists(file.path(dir, "wordConditionalProbIndexArr.txt"))
 
@@ -39,21 +48,26 @@ print.RDPClassifier <- function(x, ...) {
   cat("RDPClassifier\nLocation:", loc, "\n")
 }
 
-# from http://stackoverflow.com/a/34031214/470769
-Sys.which2 <- function(cmd) {
-    stopifnot(length(cmd) == 1)
-    if (.Platform$OS.type == "windows") {
-        suppressWarnings({
-            pathname <- shell(sprintf("where %s 2> NUL", cmd), intern=TRUE)[1]
-        })
-        if (!is.na(pathname)) return(dQuote(stats::setNames(pathname, cmd)))
-    }
-    Sys.which(cmd)
+# see: https://stackoverflow.com/questions/43528059/where-does-rjava-takes-location-of-jdk-from
+.javaExecutable <- function() {
+    java <- ""
+  
+    ### Linux (set with R CMD reconfigure Java)
+    if (file.exists(file.path(R.home(component="etc"), "Makeconf")))
+      java <- strsplit(grep("^JAVA ", 
+        readLines(file.path(R.home(component="etc"), "Makeconf")), value = TRUE), 
+        split = "\\s*=\\s*")[[1L]][2L]
+
+    ### Windows - fall back to env
+    if (.Platform$OS.type == "windows")
+      java <- utils::shortPathName(file.path(Sys.getenv("JAVA_HOME"), "bin", "java.exe"))
+    
+    if (java == "")
+      stop("Install the Java JDK and run 'R CMD javareconf' or set the environment variable 'JAVA_HOME'.")
+
+    return(java)
 }
-
-.javaExecutable <- function() Sys.which2("java")
-
-
+    
 predict.RDPClassifier <- function(object, newdata,
   confidence=.8, rdp_args="", java_args="-Xmx1g", ...) {
 
@@ -73,16 +87,20 @@ predict.RDPClassifier <- function(object, newdata,
   #setwd(wd)
   infile <- paste(temp_file, ".fasta", sep="")
   outfile <- paste(temp_file, "_tax_assignments.txt", sep="")
+  
   ## property?
-  if(!is.null(classifier)) property <- paste("-t",
-    file.path(classifier,"rRNAClassifier.properties"))
+  fp <- file.path(classifier,"rRNAClassifier.properties")
+  if (.Platform$OS.type == "windows")
+    fp <- utils::shortPathName(fp)
+  if(!is.null(classifier)) property <- paste("-t", fp)
   else property <- ""
-
+  
   writeXStringSet(x, infile, append=FALSE)
-  if (system(paste(.javaExecutable(), java_args, "-jar", .get_rdp(), "classify",
-    property, "-o", outfile, "-c", confidence, "-format fixrank", rdp_args, infile),
-    ignore.stdout=TRUE, ignore.stderr=TRUE, intern=FALSE))
-    stop("Error executing RDP")
+  
+  exe <- paste(.javaExecutable(), java_args, "-jar", .get_rdp(), "classify",
+               property, "-o", outfile, "-c", confidence, "-format fixrank", rdp_args, infile)
+  if (system(exe, ignore.stdout=TRUE, ignore.stderr=TRUE, intern=FALSE))
+    stop("Error executing: ", exe)
 
   ## read and parse rdp output
   cl_tab <- read.table(outfile, sep="\t")

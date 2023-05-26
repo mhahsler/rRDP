@@ -77,7 +77,8 @@ seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
 names(seq) <-  sapply(strsplit(names(seq), " "), "[", 1)
 seq
 
-## use rdp for classification (this needs package rRDPData) 
+## use rdp for classification (this needs package rRDPData installed)
+## > BiocManager::install("rRDPData")
 pred <- predict(rdp(), seq)
 pred
   
