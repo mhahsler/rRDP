@@ -5,7 +5,8 @@ Version: 1.35.2
 Date: 2023-09-27
 Authors@R: c(person("Michael", "Hahsler", 
                 role = c("aut", "cre"),
-                email = "mhahsler@lyle.smu.edu"),
+                email = "mhahsler@lyle.smu.edu",
+                comment = c(ORCID = "0000-0003-2716-1405")),
             person("Nagar", "Anurag", 
                 role = "aut"))
 biocViews: Genetics, Sequencing, Infrastructure, Classification,
