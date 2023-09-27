@@ -58,12 +58,16 @@ print.RDPClassifier <- function(x, ...) {
         readLines(file.path(R.home(component="etc"), "Makeconf")), value = TRUE), 
         split = "\\s*=\\s*")[[1L]][2L]
 
+    ### LINUX if not configured and WINDOWS if in path
+    if (java == "")
+      Sys.which("java")
+    
     ### Windows - fall back to env
-    if (.Platform$OS.type == "windows")
+    if (java == "" && .Platform$OS.type == "windows")
       java <- utils::shortPathName(file.path(Sys.getenv("JAVA_HOME"), "bin", "java.exe"))
     
     if (java == "")
-      stop("Install the Java JDK and run 'R CMD javareconf' or set the environment variable 'JAVA_HOME'.")
+      stop("Install the Java JDK and run 'R CMD javareconf', set the environment variable 'JAVA_HOME' or make sure that java in in the path.")
 
     return(java)
 }
