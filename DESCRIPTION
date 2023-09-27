@@ -3,8 +3,11 @@ Title: Interface to the RDP Classifier
 Description: Seamlessly interfaces RDP classifier (version 2.9).
 Version: 1.35.2
 Date: 2023-09-27
-Author: Michael Hahsler, Anurag Nagar
-Maintainer: Michael Hahsler <mhahsler@lyle.smu.edu>
+Authors@R: c(person("Michael", "Hahsler", 
+                role = c("aut", "cre"),
+                email = "mhahsler@lyle.smu.edu"),
+            person("Nagar", "Anurag", 
+                role = "aut"))
 biocViews: Genetics, Sequencing, Infrastructure, Classification,
         Microbiome, ImmunoOncology
 Depends: Biostrings (>= 2.26.2)

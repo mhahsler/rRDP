@@ -14,10 +14,12 @@ currently RDP version 2.9.
 }
 \usage{
 rdp(dir = NULL)
-\method{predict}{RDPClassifier}(object, newdata,
-  confidence=.8, rdp_args="", java_args="-Xmx1g", ...)
-trainRDP(x, dir="classifier", rank="genus", java_args="-Xmx1g")
+
+trainRDP(x, dir = "classifier", rank = "genus", java_args = "-Xmx1g")
 removeRDP(object)
+
+\method{predict}{RDPClassifier}(object, newdata,
+  confidence = .8, rdp_args = "", java_args = "-Xmx1g", ...)
 }
 \arguments{
   \item{dir}{directory where the classifier information is stored.} 
@@ -64,9 +66,11 @@ results for each sequence
 attribure called "confidence" with a matrix containing the confidence values.
 }
 \references{
-RDP Classifier \url{http://sourceforge.net/projects/rdp-classifier/}
+Hahsler M, Nagar A (2020). "rRDP: Interface to the RDP Classifier." R Package, Bioconductor, \doi{10.18129/B9.bioc.rRDP}
 
-Qiong Wang, George M. Garrity, James M. Tiedje and James R. Cole. Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy, Appl. Environ. Microbiol. August 2007 vol. 73 no. 16 5261-5267. 
+RDP classifier software: \url{http://sourceforge.net/projects/rdp-classifier/}
+
+Qiong Wang, George M. Garrity, James M. Tiedje and James R. Cole. Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy, Appl. Environ. Microbiol. August 2007 vol. 73 no. 16 5261-5267. \doi{10.1128/AEM.00062-07}
 }
 \examples{
 ### Use the default classifier
