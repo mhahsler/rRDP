@@ -15,11 +15,11 @@ currently RDP version 2.9.
 \usage{
 rdp(dir = NULL)
 
-trainRDP(x, dir = "classifier", rank = "genus", java_args = "-Xmx1g")
+trainRDP(x, dir = "classifier", rank = "genus", verbose = FALSE)
 removeRDP(object)
 
 \method{predict}{RDPClassifier}(object, newdata,
-  confidence = .8, rdp_args = "", java_args = "-Xmx1g", ...)
+  confidence = .8, rdp_args = "", verbose = FALSE, ...)
 }
 \arguments{
   \item{dir}{directory where the classifier information is stored.} 
@@ -31,11 +31,10 @@ removeRDP(object)
     (e.g., "-minWords 5" to set the 
     minimum number of words for each bootstrap trial.). 
     See RDP documentation.}
-  \item{java_args}{additional arguments for java (default sets the 
-    max. heap memory to 1GB).}
   \item{x}{an object of class DNAStringSet with the 16S rRNA sequences 
     for training.}
   \item{rank}{Taxonomic rank at which the classification is learned.}
+  \item{verbose}{logical; print additional information. }
   \item{...}{additional arguments (currently unused).}
 }
 \details{

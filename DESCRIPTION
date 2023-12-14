@@ -1,8 +1,8 @@
 Package: rRDP
 Title: Interface to the RDP Classifier
 Description: Seamlessly interfaces RDP classifier (version 2.9).
-Version: 1.35.2
-Date: 2023-09-27
+Version: 1.36.0
+Date: 2023-12-14
 Authors@R: c(person("Michael", "Hahsler", 
                 role = c("aut", "cre"),
                 email = "mhahsler@lyle.smu.edu",
@@ -12,6 +12,7 @@ Authors@R: c(person("Michael", "Hahsler",
 biocViews: Genetics, Sequencing, Infrastructure, Classification,
         Microbiome, ImmunoOncology
 Depends: Biostrings (>= 2.26.2)
+Imports: rJava
 Suggests: rRDPData
 SystemRequirements: Java JDK 1.4 or higher
 License: GPL-2 | file LICENSE
