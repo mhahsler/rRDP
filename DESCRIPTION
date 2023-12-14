@@ -1,7 +1,7 @@
 Package: rRDP
 Title: Interface to the RDP Classifier
 Description: Seamlessly interfaces RDP classifier (version 2.9).
-Version: 1.38.0
+Version: 1.37.1
 Date: 2023-12-14
 Authors@R: c(person("Michael", "Hahsler", 
                 role = c("aut", "cre"),
