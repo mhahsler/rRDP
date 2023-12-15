@@ -14,10 +14,12 @@ currently RDP version 2.9.
 }
 \usage{
 rdp(dir = NULL)
-\method{predict}{RDPClassifier}(object, newdata,
-  confidence=.8, rdp_args="", java_args="-Xmx1g", ...)
-trainRDP(x, dir="classifier", rank="genus", java_args="-Xmx1g")
+
+trainRDP(x, dir = "classifier", rank = "genus", verbose = FALSE)
 removeRDP(object)
+
+\method{predict}{RDPClassifier}(object, newdata,
+  confidence = .8, rdp_args = "", verbose = FALSE, ...)
 }
 \arguments{
   \item{dir}{directory where the classifier information is stored.} 
@@ -29,11 +31,10 @@ removeRDP(object)
     (e.g., "-minWords 5" to set the 
     minimum number of words for each bootstrap trial.). 
     See RDP documentation.}
-  \item{java_args}{additional arguments for java (default sets the 
-    max. heap memory to 1GB).}
   \item{x}{an object of class DNAStringSet with the 16S rRNA sequences 
     for training.}
   \item{rank}{Taxonomic rank at which the classification is learned.}
+  \item{verbose}{logical; print additional information. }
   \item{...}{additional arguments (currently unused).}
 }
 \details{
@@ -64,9 +65,11 @@ results for each sequence
 attribure called "confidence" with a matrix containing the confidence values.
 }
 \references{
-RDP Classifier \url{http://sourceforge.net/projects/rdp-classifier/}
+Hahsler M, Nagar A (2020). "rRDP: Interface to the RDP Classifier." R Package, Bioconductor, \doi{10.18129/B9.bioc.rRDP}
 
-Qiong Wang, George M. Garrity, James M. Tiedje and James R. Cole. Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy, Appl. Environ. Microbiol. August 2007 vol. 73 no. 16 5261-5267. 
+RDP classifier software: \url{http://sourceforge.net/projects/rdp-classifier/}
+
+Qiong Wang, George M. Garrity, James M. Tiedje and James R. Cole. Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy, Appl. Environ. Microbiol. August 2007 vol. 73 no. 16 5261-5267. \doi{10.1128/AEM.00062-07}
 }
 \examples{
 ### Use the default classifier
@@ -77,7 +80,8 @@ seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
 names(seq) <-  sapply(strsplit(names(seq), " "), "[", 1)
 seq
 
-## use rdp for classification (this needs package rRDPData) 
+## use rdp for classification (this needs package rRDPData installed)
+## > BiocManager::install("rRDPData")
 pred <- predict(rdp(), seq)
 pred
   

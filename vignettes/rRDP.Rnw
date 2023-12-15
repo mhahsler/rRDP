@@ -122,6 +122,44 @@ options(width = 70, prompt="R> ", digits=4)
 set.seed(1234)
 @
 
+\section{Installation and System requirements}
+
+rRDP requires the Bioconductor package Biostrings and R to be configured with Java.
+
+<<eval=FALSE>>=
+if (!require("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+
+BiocManager::install("Biostrings")
+@
+
+Install rRDP and the database used by the default RDP classifier.
+
+<<eval=FALSE>>=
+BiocManager::install("rRDP")
+BiocManager::install("rRDPData")
+@
+
+To configure R for Java, you need to install a Java JDK. On Linux, you can install Open JDK
+and run in your shell 
+\code{R CMD javareconf}.
+
+On Windows, you can install the latest version of the JDK from 
+\url{https://www.oracle.com/java/technologies/downloads/} and set the 
+\code{JAVA_HOME} environment variable in R using (make sure to use the correct location).
+
+<<eval=FALSE>>=
+Sys.setenv(JAVA_HOME = "C:\\Program Files\\Java\\jdk-20")
+@
+
+Note the double backslashes (i.e. escaped slashes) used in the path.
+
+\section{How to cite this package}
+
+<<>>=
+citation("rRDP")
+@
+
 \section{Classification with RDP}
 The RDP classifier was developed by the Ribosomal Database Project 
 which provides various tools and services to the scientific community for data 
@@ -134,7 +172,7 @@ RDP is shipped trained with a 16S rRNA training set. The model data is available
 in the data package~\pkg{rRDPData}.
 
 For the following example we load some test sequences shipped with the package. 
-<<>>=
+<<load_test>>=
 library(rRDP)
 
 seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
@@ -146,7 +184,7 @@ Note that the name contains the annotation from the FASTA file. In this case
 the annotation contains the actual classification information and is encoded 
 in Greengenes format. For convenience, we replace the annotation with just the
 sequence id.
-<<>>=
+<<clean_id>>=
 annotation <- names(seq)
 
 names(seq) <-  sapply(strsplit(names(seq), " "), "[", 1)
@@ -156,7 +194,7 @@ seq
 Next, we apply RDP with the default training set. Note that the data package
 \pkg{rRDPDate} needs to be installed!
 
-<<>>=
+<<predict>>=
 pred <- predict(rdp(), seq)
 pred
 @
@@ -179,7 +217,7 @@ actual
 Now we can compare the prediction with the actual classification by creating
 a confusion table and calculating the classification accuracy. Here we do this
 at the Genus level.
-<<>>=
+<<accuracy>>=
 confusionTable(actual, pred, rank="genus")
 accuracy(actual, pred, rank="genus")
 @
@@ -188,7 +226,7 @@ accuracy(actual, pred, rank="genus")
 
 RDP can be trained using \code{trainRDP()}. We use an example of training 
 data that is shipped with the package.
-<<>>=
+<<train>>=
 trainingSequences <- readDNAStringSet(
     system.file("examples/trainingSequences.fasta", package="rRDP"))
 trainingSequences
@@ -210,12 +248,12 @@ sprintf(names(trainingSequences[1]), fmt="%.65s...")
 
 Now, we can train a the classifier. The model is stored in a directory specified
 by the parameter \code{dir}.
-<<>>=
+<<custom>>=
 customRDP <- trainRDP(trainingSequences, dir = "myRDP")
 customRDP
 @
 
-<<>>=
+<<predict_custom>>=
 testSequences <- readDNAStringSet(
     system.file("examples/testSequences.fasta", package="rRDP"))
 pred <- predict(customRDP, testSequences)

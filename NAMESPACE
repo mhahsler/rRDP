@@ -1,4 +1,6 @@
 import(Biostrings)
+importFrom("rJava", ".jaddClassPath", ".jnew", ".jcall", ".jpackage")
+importFrom("utils", "read.table")
 
 export( 
  	### RDP
