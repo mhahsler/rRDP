@@ -40,6 +40,10 @@ print.RDPClassifier <- function(x, ...) {
   if (is.null(loc))
     loc <- "Default RDP classifier"
   cat("RDPClassifier\nLocation:", loc, "\n")
+  if (!.isRDP(x$dir))
+    cat(
+      "The RDPClassifier is not valid!\n"
+    )
 }
 
 predict.RDPClassifier <- function(object,
@@ -91,6 +95,10 @@ predict.RDPClassifier <- function(object,
   rdp_obj <- .jnew("edu.msu.cme.rdp.classifier.cli.ClassifierMain")
   s <- .jcall(rdp_obj, returnSig="V", method="main", cmd)
   
+  ## run the garbage collector or Java on Windows will not close the files.
+  remove(rdp_obj)
+  rJava::.jgc()
+  
   ## read and parse rdp output
   cl_tab <- read.table(outfile, sep = "\t")
   
@@ -125,8 +133,9 @@ trainRDP <-
            verbose = FALSE)
   {
     if (file.exists(dir))
-      stop(
-        "Classifier directory already exists! Choose a different directory or use removeRDP()."
+      stop(paste(
+        "Classifier directory", sQuote(dir),  
+        "already exists! Choose a different directory, use removeRDP(), or remove the directory manually.")
       )
     
     taxonomyNames <-
@@ -258,6 +267,10 @@ trainRDP <-
     rdp_obj <- .jnew("edu.msu.cme.rdp.classifier.cli.ClassifierMain")
     s <- .jcall(rdp_obj, returnSig="V", method="main", cmd)
     
+    ## run the garbage collector or Java on Windows will not close the files.
+    remove(rdp_obj)
+    rJava::.jgc()
+    
     file.copy(system.file("java/rRNAClassifier.properties",
                           package = "rRDP"),
               dir)
@@ -267,13 +280,21 @@ trainRDP <-
 
 removeRDP <- function(object) {
   ### first check if it looks like a RDP directory!
+  if (!dir.exists(object$dir))
+    stop(
+      "The given RDPClassifier/directory does not exits!"
+    )
+  
   if (!.isRDP(object$dir))
     stop(
-      "The given RDPClassifier/directory does not look valid! Please remove the directory manually!"
+      "The given RDPClassifier/directory is not a valid RDP classifier!"
     )
   
   ### don't remove the default data
   if (object$dir != normalizePath(system.file("extdata", "16srrna", package =
-                                              "rRDPData")))
-    unlink(object$dir, recursive = TRUE)
+                                              "rRDPData"))) {
+    status <- unlink(object$dir, recursive = TRUE)
+    if (status != 0)
+      stop(paste("Removing the RDPClassifier/directory failed! Please remove the following directory manually:", object$dir))
+  }
 }
