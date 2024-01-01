@@ -1,5 +1,6 @@
 \name{RDP}
 \alias{rdp}
+\alias{RDP}
 \alias{predict}
 \alias{predict.RDPClassifier}
 \alias{print.RDPClassifier}
@@ -67,7 +68,7 @@ attribure called "confidence" with a matrix containing the confidence values.
 \references{
 Hahsler M, Nagar A (2020). "rRDP: Interface to the RDP Classifier." R Package, Bioconductor, \doi{10.18129/B9.bioc.rRDP}
 
-RDP classifier software: \url{http://sourceforge.net/projects/rdp-classifier/}
+RDP classifier software: \url{https://github.com/rdpstaff/classifier}
 
 Qiong Wang, George M. Garrity, James M. Tiedje and James R. Cole. Naive Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New Bacterial Taxonomy, Appl. Environ. Microbiol. August 2007 vol. 73 no. 16 5261-5267. \doi{10.1128/AEM.00062-07}
 }
