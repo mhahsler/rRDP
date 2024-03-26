@@ -1,0 +1,200 @@
+---
+title: "rRDP: Interface to the RDP Classifier"
+author: "Michael Hahsler and Anurag Nagar"
+bibliography: rRDP.bib
+vignette: >
+  %\VignetteIndexEntry{rRDP: Interface to the RDP Classifier}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+abstract: "This package installs and interfaces the naive Bayesian classifier for 16S rRNA sequences developed by the Ribosomal Database Project (RDP). With this package the classifier trained with the standard training set can be used or a custom classifier can be trained."
+output:
+  rmarkdown::html_vignette
+---
+
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+    collapse = TRUE,
+    comment = "#>"
+)
+```
+
+```{r setup}
+library("rRDP")
+set.seed(1234)
+```
+
+# Installation and System Requirements
+
+rRDP requires the Bioconductor package Biostrings and R to be configured with Java.
+
+```{r, eval=FALSE}
+if (!require("BiocManager", quietly = TRUE)) {
+    install.packages("BiocManager")
+}
+
+BiocManager::install("Biostrings")
+```
+
+Install rRDP and the database used by the default RDP classifier.
+
+```{r, eval=FALSE}
+BiocManager::install("rRDP")
+BiocManager::install("rRDPData")
+```
+
+RDP uses Java and you need a working installation of the `rJava` package.
+You need to have a Java JDK installed. On Linux, you can install Open JDK
+and run in your shell 
+`R CMD javareconf` to configure R for using Jave.
+On Windows, you can install the latest version of the JDK from 
+https://www.oracle.com/java/technologies/downloads/ and set the 
+`JAVA_HOME` environment variable in R using (make sure to use the correct location).
+An example would look like this:
+
+```{r, eval=FALSE}
+Sys.setenv(JAVA_HOME = "C:\\Program Files\\Java\\jdk-20")
+```
+
+Note the double backslashes (i.e. escaped slashes) used in the path.
+
+Details 
+can be found at https://www.rforge.net/rJava/index.html.
+To configure R for Java, 
+
+## How to cite this package
+
+```{r, comment = ""}
+citation("rRDP")
+```
+
+# Classification with RDP
+The RDP classifier was developed by the Ribosomal Database Project 
+which provides various tools and services to the scientific community for data 
+related to 16S rRNA sequences. The classifier uses a Naive Bayesian approach to 
+quickly and accurately classify sequences. The classifier uses 
+8-mer counts as features [@RDP].
+
+\subsection{Using the RDP classifier trained with the default training set}
+RDP is shipped trained with a 16S rRNA training set. The model data is available
+in the data package `rRDPData`.
+
+For the following example we load some test sequences shipped with the package. 
+```{r}
+seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
+    package = "rRDP"
+))
+seq
+```
+
+Note that the name contains the annotation from the FASTA file. In this case
+the annotation contains the actual classification information and is encoded 
+in Greengenes format. For convenience, we replace the annotation with just the
+sequence id.
+
+```{r}
+annotation <- names(seq)
+
+names(seq) <- sapply(strsplit(names(seq), " "), "[", 1)
+seq
+```
+
+Next, we apply RDP with the default training set. Note that the data package
+`rRDPDate` needs to be installed!
+
+```{r}
+pred <- predict(rdp(), seq)
+pred
+```
+
+The prediction confidence is supplied as the attribute `"confidence"`.
+```{r}
+attr(pred, "confidence")
+```
+  
+To evaluate the classification accuracy we can compare the known classification
+with the predictions. The known classification was stored in the FASTA file
+and encoded in Greengenes format. We can decode the annotation using 
+`decode_Greengenes()`.
+
+```{r}
+actual <- decode_Greengenes(annotation)
+actual
+```
+
+Now we can compare the prediction with the actual classification by creating
+a confusion table and calculating the classification accuracy. Here we do this
+at the Genus level.
+
+```{r}
+confusionTable(actual, pred, rank = "genus")
+accuracy(actual, pred, rank = "genus")
+```
+
+## Training a custom RDP classifier
+
+RDP can be trained using `trainRDP()`. We use an example of training 
+data that is shipped with the package.
+
+```{r}
+trainingSequences <- readDNAStringSet(
+    system.file("examples/trainingSequences.fasta", package = "rRDP")
+)
+trainingSequences
+```
+
+Note that the training data needs to have names in a specific RDP format: 
+
+`"<ID> <Kingdom>;<Phylum>;<Class>;<Order>;<Family>;<Genus>"`
+
+
+In the following we show the name for the first sequence.
+We use here `sprintf` to display
+only the first 65~characters so the it fits into a single line.
+
+```{r}
+sprintf(names(trainingSequences[1]), fmt = "%.65s...")
+```
+
+
+Now, we can train a the classifier. The model is stored in a directory specified
+by the parameter `dir`.
+
+```{r}
+customRDP <- trainRDP(trainingSequences, dir = "myRDP")
+customRDP
+```
+
+```{r}
+testSequences <- readDNAStringSet(
+    system.file("examples/testSequences.fasta", package = "rRDP")
+)
+pred <- predict(customRDP, testSequences)
+pred
+```
+
+  
+Since the custom classifier is stored on disc it can be recalled anytime using
+`rdp()`.
+
+```{r}
+customRDP <- rdp(dir = "myRDP")
+```
+
+To permanently remove the classifier use `removeRDP()`. This will delete the 
+directory containing the classifier files.
+
+```{r}
+removeRDP(customRDP)
+```
+
+# Session Info
+```{r}
+sessionInfo()
+```
+
+# Acknowledgments
+This research is supported by research grant no. R21HG005912 from the National Human Genome Research Institute (NHGRI / NIH).
+
+# References
+
