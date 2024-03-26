@@ -23,8 +23,12 @@
 
 #' Ribosomal Database Project (RDP) Classifier for 16S rRNA
 #'
-#' Use the RDP classifier to classify 16S rRNA sequences. This package contains
-#' currently RDP version 2.9.
+#' Use the RDP classifier (Wang et al, 2007) to classify 16S rRNA sequences. 
+#' This package contains
+#' currently RDP version 2.14 released in August 2023. The associated data
+#' package `rRDPData` contains models trained on
+#' the bacterial and archaeal taxonomy training set No. 19 (see Wang and 
+#' Cole, 2024).
 #'
 #' RDP is a naive Bayes classifier using 8-mers as features.
 #'
@@ -36,7 +40,7 @@
 #' stores the classifier information in `dir`. The data in `x` needs
 #' to have annotations in the following format:
 #'
-#' "<ID> <Kingdom>;<Phylum>;<Class>;<Order>;<Family>;<Genus>"
+#' `"<ID> <Kingdom>;<Phylum>;<Class>;<Order>;<Family>;<Genus>"`
 #'
 #' A created classifier can be removed with `removeRDP()`. This will
 #' remove the directory which stores the classifier information.
@@ -60,11 +64,11 @@
 #' @param rank Taxonomic rank at which the classification is learned.
 #' @param verbose logical; print additional information.
 #' @param ... additional arguments (currently unused).
-#' @return `rdp()` and `trainRDP()` return a RDPClassifier object.
+#' @return `rdp()` and `trainRDP()` return a `RDPClassifier` object.
 #'
 #' `predict()` returns a data.frame containing the classification results
 #' for each sequence (rows). The data.frame has an attribute called
-#' "confidence" with a matrix containing the confidence values.
+#' `"confidence"` with a matrix containing the confidence values.
 #' @references Hahsler M, Nagar A (2020). "rRDP: Interface to the RDP
 #' Classifier." R Package, Bioconductor.
 #' \doi{10.18129/B9.bioc.rRDP}.
@@ -75,6 +79,11 @@
 #' Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New
 #' Bacterial Taxonomy, Appl. Environ. Microbiol. August 2007 vol. 73 no. 16
 #' 5261-5267. \doi{10.1128/AEM.00062-07}
+#' 
+#' Qiong W. and Cole J.R. Updated RDP taxonomy and RDP Classifier for more 
+#' accurate taxonomic classification, Microbial Ecology, 
+#' Announcement, 4 March 2024. \doi{https://doi.org/10.1128/mra.01063-23}
+#'
 #' @keywords model
 #' @examples
 #' ### Use the default classifier
@@ -88,7 +97,11 @@
 #'
 #' ## use rdp for classification (this needs package rRDPData installed)
 #' ## > BiocManager::install("rRDPData")
-#' pred <- predict(rdp(), seq)
+#' 
+#' cl_16S <- rdp()
+#' cl_16S
+#' 
+#' pred <- predict(cl_16S, seq)
 #' pred
 #'
 #' attr(pred, "confidence")

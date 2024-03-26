@@ -42,15 +42,19 @@ training.}
 \item{rank}{Taxonomic rank at which the classification is learned.}
 }
 \value{
-\code{rdp()} and \code{trainRDP()} return a RDPClassifier object.
+\code{rdp()} and \code{trainRDP()} return a \code{RDPClassifier} object.
 
 \code{predict()} returns a data.frame containing the classification results
 for each sequence (rows). The data.frame has an attribute called
-"confidence" with a matrix containing the confidence values.
+\code{"confidence"} with a matrix containing the confidence values.
 }
 \description{
-Use the RDP classifier to classify 16S rRNA sequences. This package contains
-currently RDP version 2.9.
+Use the RDP classifier (Wang et al, 2007) to classify 16S rRNA sequences.
+This package contains
+currently RDP version 2.14 released in August 2023. The associated data
+package \code{rRDPData} contains models trained on
+the bacterial and archaeal taxonomy training set No. 19 (see Wang and
+Cole, 2024).
 }
 \details{
 RDP is a naive Bayes classifier using 8-mers as features.
@@ -63,7 +67,7 @@ RDP.  Alternatively, a directory with the data for an existing classifier
 stores the classifier information in \code{dir}. The data in \code{x} needs
 to have annotations in the following format:
 
-"\if{html}{\out{<ID>}} \if{html}{\out{<Kingdom>}};\if{html}{\out{<Phylum>}};\if{html}{\out{<Class>}};\if{html}{\out{<Order>}};\if{html}{\out{<Family>}};\if{html}{\out{<Genus>}}"
+\code{"<ID> <Kingdom>;<Phylum>;<Class>;<Order>;<Family>;<Genus>"}
 
 A created classifier can be removed with \code{removeRDP()}. This will
 remove the directory which stores the classifier information.
@@ -83,7 +87,11 @@ seq
 
 ## use rdp for classification (this needs package rRDPData installed)
 ## > BiocManager::install("rRDPData")
-pred <- predict(rdp(), seq)
+
+cl_16S <- rdp()
+cl_16S
+
+pred <- predict(cl_16S, seq)
 pred
 
 attr(pred, "confidence")
@@ -115,5 +123,9 @@ Qiong Wang, George M. Garrity, James M. Tiedje and James R. Cole. Naive
 Bayesian Classifier for Rapid Assignment of rRNA Sequences into the New
 Bacterial Taxonomy, Appl. Environ. Microbiol. August 2007 vol. 73 no. 16
 5261-5267. \doi{10.1128/AEM.00062-07}
+
+Qiong W. and Cole J.R. Updated RDP taxonomy and RDP Classifier for more
+accurate taxonomic classification, Microbial Ecology,
+Announcement, 4 March 2024. \doi{https://doi.org/10.1128/mra.01063-23}
 }
 \keyword{model}
