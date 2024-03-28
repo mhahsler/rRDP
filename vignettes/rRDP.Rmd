@@ -69,15 +69,18 @@ citation("rRDP")
 ```
 
 # Classification with RDP
-The RDP classifier was developed by the Ribosomal Database Project 
+The RDP classifier was developed by the Ribosomal Database Project [@rdp:Cole:2003]
 which provides various tools and services to the scientific community for data 
 related to 16S rRNA sequences. The classifier uses a Naive Bayesian approach to 
 quickly and accurately classify sequences. The classifier uses 
-8-mer counts as features [@RDP].
+8-mer counts as features [@rdp:Wang:2007].
 
 \subsection{Using the RDP classifier trained with the default training set}
-RDP is shipped trained with a 16S rRNA training set. The model data is available
-in the data package `rRDPData`.
+RDP is trained with a 16S rRNA training set. 
+The companion data package `rRDPData` currently ships with 
+trained models for the RDP Classifier 2.14 released in August 2023 
+which contains the bacterial and archaeal taxonomy training set No. 19 
+[@rdp:Wang:2024].
 
 For the following example we load some test sequences shipped with the package. 
 ```{r}
