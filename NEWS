@@ -1,0 +1,7 @@
+rRDP 1.37.3 (Release date: 2024-03-26)
+==============
+
+Changes:
+
+* Updated to the lated RDP Classifier version 2.14 released in August 2023 
+  which contains the bacterial and archaeal taxonomy training set No. 19.
