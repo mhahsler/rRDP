@@ -12,6 +12,7 @@ This package installs and interfaces the naive Bayesian classifier for 16S rRNA 
 Useful links:
 \itemize{
   \item \url{https://github.com/mhahsler/rRDP/}
+  \item \url{http://michael.hahsler.net/rRDP/}
   \item Report bugs at \url{https://github.com/mhahsler/rRDP/issues}
 }
 

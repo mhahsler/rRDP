@@ -71,8 +71,8 @@ remove the directory which stores the classifier information permanently.
 \subsection{Use a pretrained classifier}{
 
 Calling \code{rdp()} without a directory downloads the default 16S classifier
-from the RDP project and caches it in the user data directory after asking
-for confirmation. The download may take a while. A custom classifier can be loaded by passing its
+from the RDP project and caches it in the user data directory. The first
+download may take a while, and you will be asked before it starts. A custom classifier can be loaded by passing its
 directory to \code{rdp(dir)}.
 }
 
@@ -105,7 +105,7 @@ removeRDP(customRDP)
 
 if (!file.exists("data")) {
   if (!file.exists("data.tgz"))
-    download.file(paste0("https://master.dl.sourceforge.net/project/",
+    download.file(paste0("https://downloads.sourceforge.net/project/",
       "rdp-classifier/rdp-classifier/data.tgz"), "data.tgz", mode = "wb")
   untar("data.tgz")
 }

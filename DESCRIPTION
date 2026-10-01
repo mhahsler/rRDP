@@ -3,7 +3,7 @@ Title: Interface to the RDP Classifier
 Description: This package installs and interfaces the naive Bayesian classifier for 16S rRNA 
   sequences developed by the Ribosomal Database Project (RDP). With this package the 
   classifier trained with the standard training set can be used or a custom classifier can be trained.
-Version: 1.43.1
+Version: 2.0.0
 Date: 2025-xx-xx
 Authors@R: c(person("Michael", "Hahsler", 
                 role = c("aut", "cre"),

@@ -19,7 +19,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
 library("rRDP")
 set.seed(1234)
 ```
