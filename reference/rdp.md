@@ -156,8 +156,9 @@ if (FALSE) { # \dontrun{
 
 if (!file.exists("data")) {
   if (!file.exists("data.tgz"))
-    download.file(paste0("https://downloads.sourceforge.net/project/",
-      "rdp-classifier/rdp-classifier/data.tgz"), "data.tgz", mode = "wb")
+    download.file(paste0("https://downloads.sourceforge.net/",
+      "project/rdp-classifier/rdp-classifier/data.tgz"), 
+      "data.tgz", mode = "wb")
   untar("data.tgz")
 }
   

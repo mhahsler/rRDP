@@ -131,7 +131,8 @@ remove the directory which stores the classifier information permanently.</p>
 
 <p>Calling <code>rdp()</code> without a directory downloads the default 16S classifier
 from the RDP project and caches it in the user data directory. The first
-download may take a while, and you will be asked before it starts. A custom classifier can be loaded by passing its
+download may take a while, and you will be asked before it starts.
+A custom classifier can be loaded by passing its
 directory to <code>rdp(dir)</code>.</p>
 </div>
 
@@ -199,8 +200,9 @@ Announcement, 4 March 2024. <a href="https://doi.org/10.1128/mra.01063-23" class
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="st">"data"</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span></span>
 <span class="r-in"><span>  <span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/files.html" class="external-link">file.exists</a></span><span class="op">(</span><span class="st">"data.tgz"</span><span class="op">)</span><span class="op">)</span></span></span>
-<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://downloads.sourceforge.net/project/"</span>,</span></span>
-<span class="r-in"><span>      <span class="st">"rdp-classifier/rdp-classifier/data.tgz"</span><span class="op">)</span>, <span class="st">"data.tgz"</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span></span>
+<span class="r-in"><span>    <span class="fu"><a href="https://rdrr.io/r/utils/download.file.html" class="external-link">download.file</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"https://downloads.sourceforge.net/"</span>,</span></span>
+<span class="r-in"><span>      <span class="st">"project/rdp-classifier/rdp-classifier/data.tgz"</span><span class="op">)</span>, </span></span>
+<span class="r-in"><span>      <span class="st">"data.tgz"</span>, mode <span class="op">=</span> <span class="st">"wb"</span><span class="op">)</span></span></span>
 <span class="r-in"><span>  <span class="fu"><a href="https://rdrr.io/r/utils/untar.html" class="external-link">untar</a></span><span class="op">(</span><span class="st">"data.tgz"</span><span class="op">)</span></span></span>
 <span class="r-in"><span><span class="op">}</span></span></span>
 <span class="r-in"><span>  </span></span>
