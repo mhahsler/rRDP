@@ -40,7 +40,7 @@
     dir.create(root, recursive = TRUE, showWarnings = FALSE)
     archive <- tempfile(fileext = ".tgz")
     on.exit(unlink(archive))
-    url <- paste0("https://master.dl.sourceforge.net/project/",
+    url <- paste0("https://downloads.sourceforge.net/project/",
                   "rdp-classifier/rdp-classifier/data.tgz")
     cat("Downloading the default classifier data\n")
     utils::download.file(url, archive, mode = "wb", quiet = FALSE)
@@ -140,7 +140,7 @@
 #' 
 #' if (!file.exists("data")) {
 #'   if (!file.exists("data.tgz"))
-#'     download.file(paste0("https://master.dl.sourceforge.net/project/",
+#'     download.file(paste0("https://downloads.sourceforge.net/project/",
 #'       "rdp-classifier/rdp-classifier/data.tgz"), "data.tgz", mode = "wb")
 #'   untar("data.tgz")
 #' }

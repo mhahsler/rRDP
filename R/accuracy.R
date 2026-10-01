@@ -31,15 +31,7 @@
 #' @examples
 #'
 #' \dontrun{
-#' # the download may take a while
-#' if (!file.exists("data")) {
-#'   if (!file.exists("data.tgz"))
-#'     download.file(paste0("https://master.dl.sourceforge.net/project/",
-#'       "rdp-classifier/rdp-classifier/data.tgz"), "data.tgz", mode = "wb")
-#'   untar("data.tgz")
-#' }
-#' 
-#' classifier <- rdp("data/classifier/16srrna")
+#' classifier <- rdp()
 #'
 #' seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
 #'     package = "rRDP"
