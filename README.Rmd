@@ -29,7 +29,9 @@ classifier trained with the standard training set can be used or a custom classi
 library(rRDP)
 ```
 
-Load a few sequences and classify the sequences using RDP.
+Load a few sequences and classify them with RDP. On first use, `rdp()` asks
+before downloading the default 16S classifier to the user data directory.
+The download may take a while.
 
 ```{r}
 seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
@@ -51,4 +53,3 @@ pkg_citation(pkg)
 
 ## Acknowledgments
 This work was partially supported by grant no. R21HG005912 from the [National Human Genome Research Institute](https://www.genome.gov/).
-

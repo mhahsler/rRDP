@@ -30,6 +30,13 @@
   root <- tools::R_user_dir("rRDP", "data")
   dir <- .defaultRDPPath()
   if (!.isRDP(dir)) {
+    answer <- utils::askYesNo(
+      "The default RDP classifier files need to be downloaded. This may take a while. Download now?",
+      default = FALSE
+    )
+    if (!isTRUE(answer)) {
+      stop("The default RDP classifier was not downloaded. Call rdp() again when you are ready to download it.")
+    }
     dir.create(root, recursive = TRUE, showWarnings = FALSE)
     archive <- tempfile(fileext = ".tgz")
     on.exit(unlink(archive))
@@ -66,7 +73,7 @@
 #' ## Use a pretrained classifier
 #' Calling `rdp()` without a directory downloads the default 16S classifier
 #' from the RDP project and caches it in the user data directory. The first
-#' download may take a while. A custom classifier can be loaded by passing its
+#' download may take a while, and you will be asked before it starts. A custom classifier can be loaded by passing its
 #' directory to `rdp(dir)`.
 #'
 #' ## Classify sequences

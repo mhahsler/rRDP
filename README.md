@@ -38,8 +38,9 @@ BiocManager::install("rRDP")
 library(rRDP)
 ```
 
-Load a few sequences and classify them with RDP. On first use, `rdp()` downloads
-the default 16S classifier to the user data directory; the download may take a while.
+Load a few sequences and classify them with RDP. On first use, `rdp()` asks
+before downloading the default 16S classifier to the user data directory.
+The download may take a while.
 
 ``` r
 seq <- readRNAStringSet(system.file("examples/RNA_example.fasta", package = "rRDP"))
