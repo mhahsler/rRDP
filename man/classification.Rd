@@ -88,7 +88,7 @@ names(seq) <- annotation
 seq
 
 ### now we can train the classifier
-customRDP <- trainRDP(seq)
+customRDP <- trainRDP(seq, dir = "sample_classifier")
 customRDP
 
 ## clean up

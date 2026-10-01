@@ -21,6 +21,7 @@ Useful links:
 
 Authors:
 \itemize{
+  \item Michael Hahsler \email{mhahsler@lyle.smu.edu} (\href{https://orcid.org/0000-0003-2716-1405}{ORCID})
   \item Nagar Anurag
 }
 

@@ -13,8 +13,10 @@ export(rdp)
 export(removeRDP)
 export(trainRDP)
 import(Biostrings)
-importFrom(rJava,.jaddClassPath)
-importFrom(rJava,.jcall)
-importFrom(rJava,.jnew)
-importFrom(rJava,.jpackage)
+importFrom(rJava,
+  .jaddClassPath,
+  .jcall,
+  .jnew,
+  .jpackage
+)
 importFrom(utils,read.table)

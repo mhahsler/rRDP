@@ -40,7 +40,6 @@ Install rRDP and the database used by the default RDP classifier.
 
 ```{r, eval=FALSE}
 BiocManager::install("rRDP")
-BiocManager::install("rRDPData")
 ```
 
 RDP uses Java and you need a working installation of the `rJava` package.
@@ -69,15 +68,18 @@ citation("rRDP")
 ```
 
 # Classification with RDP
-The RDP classifier was developed by the Ribosomal Database Project 
+The RDP classifier was developed by the Ribosomal Database Project [@rdp:Cole:2003]
 which provides various tools and services to the scientific community for data 
 related to 16S rRNA sequences. The classifier uses a Naive Bayesian approach to 
 quickly and accurately classify sequences. The classifier uses 
-8-mer counts as features [@RDP].
+8-mer counts as features [@rdp:Wang:2007].
 
 \subsection{Using the RDP classifier trained with the default training set}
-RDP is shipped trained with a 16S rRNA training set. The model data is available
-in the data package `rRDPData`.
+RDP is trained with a 16S rRNA training set. 
+The default classifier is downloaded on first use and cached in the user's
+R data directory. It uses RDP Classifier 2.14 released in August 2023,
+with the bacterial and archaeal taxonomy training set No. 19
+[@rdp:Wang:2024].
 
 For the following example we load some test sequences shipped with the package. 
 ```{r}
@@ -99,11 +101,16 @@ names(seq) <- sapply(strsplit(names(seq), " "), "[", 1)
 seq
 ```
 
-Next, we apply RDP with the default training set. Note that the data package
-`rRDPDate` needs to be installed!
+Next, we apply RDP with the default training set. 
+Note that downloading the trained model may take a while.
 
 ```{r}
-pred <- predict(rdp(), seq)
+classifier <- rdp()
+```
+
+
+```{r}
+pred <- predict(classifier, seq)
 pred
 ```
 
@@ -197,4 +204,3 @@ sessionInfo()
 This research is supported by research grant no. R21HG005912 from the National Human Genome Research Institute (NHGRI / NIH).
 
 # References
-

@@ -24,6 +24,17 @@ Calculate the classification accuracy at a given phylogenetic level.
 }
 \examples{
 
+\dontrun{
+# the download may take a while
+if (!file.exists("data")) {
+  if (!file.exists("data.tgz"))
+    download.file(paste0("https://master.dl.sourceforge.net/project/",
+      "rdp-classifier/rdp-classifier/data.tgz"), "data.tgz", mode = "wb")
+  untar("data.tgz")
+}
+
+classifier <- rdp("data/classifier/16srrna")
+
 seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
     package = "rRDP"
 ))
@@ -32,10 +43,11 @@ seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
 actual <- decode_Greengenes(names(seq))
 
 ### use RDP to predict the classification
-pred <- predict(rdp(), seq)
+pred <- predict(classifier, seq)
 
 ### calculate accuracy
 confusionTable(actual, pred, "genus")
 accuracy(actual, pred, "genus")
+}
 }
 \keyword{model}

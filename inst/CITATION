@@ -11,6 +11,6 @@ bibentry(bibtype = "misc",
 	)},
   year = 2020,
   doi = "10.18129/B9.bioc.rRDP",
-  note = "R package version 1.23.1",
-  howpublished = "Bioconductor version: Release (3.17)"
+  note = "R package version 1.23.3",
+  howpublished = "Bioconductor version: Release (3.19)"
   )

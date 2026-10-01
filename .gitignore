@@ -1,0 +1,11 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+
+data
+data.tgz
+vignettes/data
+vignettes/data.tgz
+
+docs

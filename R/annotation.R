@@ -23,8 +23,7 @@
 #' annotations used in FASTA files by RDP and the Greengenes project.
 #'
 #' @name classification
-#' @aliases GenClass16S decode_RDP encode_RDP decode_Greengenes
-#' encode_Greengenes
+#' @aliases GenClass16S decode_RDP encode_RDP decode_Greengenes encode_Greengenes
 #' @param Kingdom Name of the kingdom to which the organism belongs.
 #' @param Phylum Name of the phylum to which the organism belongs.
 #' @param Class Name of the class to which the organism belongs.
@@ -65,7 +64,7 @@
 #' seq
 #'
 #' ### now we can train the classifier
-#' customRDP <- trainRDP(seq)
+#' customRDP <- trainRDP(seq, dir = "sample_classifier")
 #' customRDP
 #'
 #' ## clean up

@@ -1,0 +1,55 @@
+---
+output: github_document
+---
+
+```{r echo=FALSE, results = 'asis'}
+pkg <- "rRDP"
+
+source("https://raw.githubusercontent.com/mhahsler/pkg_helpers/main/pkg_helpers.R")
+pkg_title(pkg, CRAN = FALSE, Bioc = FALSE)
+```
+
+**Note:** RDP has aged and it was time 
+end support and to remove the package from Bioconductor. 
+
+The package is still functional and can be installed via:
+
+```{r eval = FALSE}
+install.packages(c('rRDP', 'rRDPData'), repos = c('https://mhahsler.r-universe.dev'))
+```
+
+
+This package installs and interfaces the naive Bayesian classifier for 16S rRNA 
+sequences developed by the Ribosomal Database Project (RDP). With this package the 
+classifier trained with the standard training set can be used or a custom classifier can be trained.
+
+## Usage
+
+```{r, message=FALSE}
+library(rRDP)
+```
+
+Load a few sequences and classify them with RDP. On first use, `rdp()` asks
+before downloading the default 16S classifier to the user data directory.
+The download may take a while.
+
+```{r}
+seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
+  package="rRDP"))
+seq
+
+pred <- predict(rdp(), seq)
+pred
+
+attr(pred, "confidence")
+```
+
+
+## Citation Request
+
+```{r, echo=FALSE, results='asis', comment= ""}
+pkg_citation(pkg)
+```
+
+## Acknowledgments
+This work was partially supported by grant no. R21HG005912 from the [National Human Genome Research Institute](https://www.genome.gov/).
