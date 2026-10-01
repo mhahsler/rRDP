@@ -15,7 +15,7 @@ biocViews: Genetics, Sequencing, Infrastructure, Classification,
         Microbiome, ImmunoOncology, Alignment, SequenceMatching, DataImport, Bayesian
 Depends: Biostrings (>= 2.26.2)
 BugReports: https://github.com/mhahsler/rRDP/issues
-URL: https://github.com/mhahsler/rRDP/
+URL: https://github.com/mhahsler/rRDP/, http://michael.hahsler.net/rRDP/
 Imports: rJava, tools, utils
 Suggests: knitr, rmarkdown
 SystemRequirements: Java JDK 1.4 or higher

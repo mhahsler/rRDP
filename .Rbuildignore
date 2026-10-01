@@ -19,3 +19,6 @@ vignettes/data
 vignettes/data.tgz
 
 rRDP.BiocCheck/
+^_pkgdown\.yml$
+^docs$
+^pkgdown$

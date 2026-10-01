@@ -1,3 +1,13 @@
+rRDP 2.0.0 (Release date: 2026-10-01)
+==============
+
+Changes:
+* rRDP is no longer on Bioconductor, but can now directly be installed from 
+  R-universe.
+* The dependency on rRDPData was removed and the data for the default clasifiers 
+  are automcatically downloaded.
+
+
 rRDP 1.37.3 (Release date: 2024-03-26)
 ==============
 
