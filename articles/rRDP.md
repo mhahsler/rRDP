@@ -10,51 +10,6 @@ can be used or a custom classifier can be trained.
 ``` r
 
 library("rRDP")
-#> Loading required package: Biostrings
-#> Loading required package: BiocGenerics
-#> Loading required package: generics
-#> 
-#> Attaching package: 'generics'
-#> The following objects are masked from 'package:base':
-#> 
-#>     as.difftime, as.factor, as.ordered, intersect, is.element, setdiff,
-#>     setequal, union
-#> 
-#> Attaching package: 'BiocGenerics'
-#> The following objects are masked from 'package:stats':
-#> 
-#>     IQR, mad, sd, var, xtabs
-#> The following objects are masked from 'package:base':
-#> 
-#>     anyDuplicated, aperm, append, as.data.frame, basename, cbind,
-#>     colnames, dirname, do.call, duplicated, eval, evalq, Filter, Find,
-#>     get, grep, grepl, is.unsorted, lapply, Map, mapply, match, mget,
-#>     order, paste, pmax, pmax.int, pmin, pmin.int, Position, rank,
-#>     rbind, Reduce, rownames, sapply, saveRDS, table, tapply, unique,
-#>     unsplit, which.max, which.min
-#> Loading required package: S4Vectors
-#> Loading required package: stats4
-#> 
-#> Attaching package: 'S4Vectors'
-#> The following object is masked from 'package:utils':
-#> 
-#>     findMatches
-#> The following objects are masked from 'package:base':
-#> 
-#>     expand.grid, I, unname
-#> Loading required package: IRanges
-#> Loading required package: XVector
-#> Loading required package: Seqinfo
-#> 
-#> Attaching package: 'Biostrings'
-#> The following object is masked from 'package:base':
-#> 
-#>     strsplit
-#> 
-#> Attaching package: 'rRDP'
-#> The following object is masked from 'package:generics':
-#> 
-#>     accuracy
 set.seed(1234)
 ```
 
@@ -344,7 +299,7 @@ sessionInfo()
 #> [8] base     
 #> 
 #> other attached packages:
-#> [1] rRDP_1.43.1         Biostrings_2.80.2   Seqinfo_1.2.0      
+#> [1] rRDP_2.0.0          Biostrings_2.80.2   Seqinfo_1.2.0      
 #> [4] XVector_0.52.0      IRanges_2.46.0      S4Vectors_0.50.3   
 #> [7] BiocGenerics_0.58.1 generics_0.1.4     
 #> 

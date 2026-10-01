@@ -11,6 +11,8 @@ Useful links:
 
 - <https://github.com/mhahsler/rRDP/>
 
+- <http://michael.hahsler.net/rRDP/>
+
 - Report bugs at <https://github.com/mhahsler/rRDP/issues>
 
 ## Author
