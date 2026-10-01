@@ -1,0 +1,2 @@
+# This always sends 404
+^https?://downloads\.sourceforge\.net
