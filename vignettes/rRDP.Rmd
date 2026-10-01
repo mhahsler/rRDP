@@ -39,7 +39,7 @@ BiocManager::install("Biostrings")
 Install rRDP and the database used by the default RDP classifier.
 
 ```{r, eval=FALSE}
-BiocManager::install("rRDP")
+install.packages(c('rRDP'), repos = c('https://mhahsler.r-universe.dev'))
 ```
 
 RDP uses Java and you need a working installation of the `rJava` package.

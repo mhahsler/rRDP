@@ -1,35 +1,20 @@
 
-<img src="https://bioconductor.org/images/logo/svg/Logo.svg" align="right" />
-
 # R package rRDP - Interface to the RDP Classifier
 
 [![r-universe
 status](https://mhahsler.r-universe.dev/badges/rRDP)](https://mhahsler.r-universe.dev/rRDP)
-[![Package on
-Bioc](https://img.shields.io/badge/Bioconductor-blue)](https://bioconductor.org/packages/rRDP)
+
+**Maintainer:** [Michael Hahsler](https://michael.hahsler.net)
 
 This package installs and interfaces the naive Bayesian classifier for
 16S rRNA sequences developed by the Ribosomal Database Project (RDP).
 With this package the classifier trained with the standard training set
 can be used or a custom classifier can be trained.
 
-Other R interfaces for bioinformatics are also available:
-
-- [rBLAST](https://bioconductor.org/packages/rBLAST): Interface to the
-  Basic Local Alignment Search Tool (BLAST) to search genetic sequence
-  data bases
-- [rMSA](https://mhahsler.r-universe.dev/ui#package:rMSA): Interface for
-  Popular Multiple Sequence Alignment Tools including ClustalW, MAFFT,
-  MUSCLE, and Kalign
-
 ## Installation
 
 ``` r
-if (!require("BiocManager", quietly = TRUE)) {
-    install.packages("BiocManager")
-}
-
-BiocManager::install("rRDP")
+install.packages(c("rRDP"), repos = c("https://mhahsler.r-universe.dev"))
 ```
 
 ## Usage
@@ -38,9 +23,9 @@ BiocManager::install("rRDP")
 library(rRDP)
 ```
 
-Load a few sequences and classify them with RDP. On first use, `rdp()` asks
-before downloading the default 16S classifier to the user data directory.
-The download may take a while.
+Load a few sequences and classify them with RDP. On first use, `rdp()`
+asks before downloading the default 16S classifier to the user data
+directory. The download may take a while.
 
 ``` r
 seq <- readRNAStringSet(system.file("examples/RNA_example.fasta", package = "rRDP"))
@@ -86,11 +71,14 @@ attr(pred, "confidence")
 
 ## Citation Request
 
+This package was formerly distributed via Bioconductor and the updated
+version here should still be cited as:
+
 To cite package ‘rRDP’ in publications use:
 
 > Hahsler M, Nagar A (2020). “rRDP: Interface to the RDP Classifier.”
 > Bioconductor version: Release (3.19). <doi:10.18129/B9.bioc.rRDP>
-> <https://doi.org/10.18129/B9.bioc.rRDP>, R package version 1.23.3.
+> <https://doi.org/10.18129/B9.bioc.rRDP>. R package version 1.23.3.
 
     @Misc{,
       title = {{rRDP:} Interface to the {RDP} Classifier},
