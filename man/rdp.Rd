@@ -14,7 +14,7 @@ rdp(dir = NULL)
 
 \method{predict}{RDPClassifier}(object, newdata, confidence = 0.8, rdp_args = "", verbose = FALSE, ...)
 
-trainRDP(x, dir = "classifier", rank = "genus", verbose = FALSE)
+trainRDP(x, dir, rank = "genus", verbose = FALSE)
 
 removeRDP(object)
 }
@@ -23,7 +23,7 @@ removeRDP(object)
 
 \item{object}{a RDPClassifier object.}
 
-\item{newdata}{new data to be classified as a \link[Biostrings:XStringSet-class]{Biostrings::DNAStringSet}.}
+\item{newdata}{new data to be classified as a \link[Biostrings:DNAStringSet]{Biostrings::DNAStringSet}.}
 
 \item{confidence}{numeric; minimum confidence level for classification.
 Results with lower confidence are replaced by NAs. Set to 0 to disable.}
@@ -36,7 +36,7 @@ See RDP documentation.}
 
 \item{...}{additional arguments (currently unused).}
 
-\item{x}{an object of class \link[Biostrings:XStringSet-class]{Biostrings::DNAStringSet} with the 16S rRNA sequences for
+\item{x}{an object of class \link[Biostrings:DNAStringSet]{Biostrings::DNAStringSet} with the 16S rRNA sequences for
 training.}
 
 \item{rank}{Taxonomic rank at which the classification is learned.}
@@ -49,19 +49,13 @@ for each sequence (rows). The data.frame has an attribute called
 \code{"confidence"} with a matrix containing the confidence values.
 }
 \description{
+RDP is a naive Bayes classifier for biological sequences using 8-mers as features.
 Use the RDP classifier (Wang et al, 2007) to classify 16S rRNA sequences.
 This package contains
-currently RDP version 2.14 released in August 2023. The associated data
-package \code{rRDPData} contains models trained on
-the bacterial and archaeal taxonomy training set No. 19 (see Wang and
-Cole, 2024).
+currently RDP version 2.14 released in August 2023.
 }
 \details{
-RDP is a naive Bayes classifier using 8-mers as features.
-
-\code{rdp()} creates a default classifier trained with the data shipped with
-RDP.  Alternatively, a directory with the data for an existing classifier
-(created with \code{trainRDP()}) can be supplied.
+\subsection{Train a new classifier}{
 
 \code{trainRDP()} creates a new classifier for the data in \code{x} and
 stores the classifier information in \code{dir}. The data in \code{x} needs
@@ -69,39 +63,32 @@ to have annotations in the following format:
 
 \code{"<ID> <Kingdom>;<Phylum>;<Class>;<Order>;<Family>;<Genus>"}
 
+The trained classifier can be used as long as the directory is available.
 A created classifier can be removed with \code{removeRDP()}. This will
-remove the directory which stores the classifier information.
+remove the directory which stores the classifier information permanently.
+}
 
-The data for the default 16S rRNA classifier can be found in package
-\code{rRDPData}.
+\subsection{Use a pretrained classifier}{
+
+Calling \code{rdp()} without a directory downloads the default 16S classifier
+from the RDP project and caches it in the user data directory. The first
+download may take a while. A custom classifier can be loaded by passing its
+directory to \code{rdp(dir)}.
+}
+
+\subsection{Classify sequences}{
+
+\code{rdp()} loads a classifier model from a specified directory. \code{predict()} can then
+be used to create a prediction.
+}
 }
 \examples{
-### Use the default classifier
-seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
-    package = "rRDP"
-))
-
-## shorten names
-names(seq) <- sapply(strsplit(names(seq), " "), "[", 1)
-seq
-
-## use rdp for classification (this needs package rRDPData installed)
-## > BiocManager::install("rRDPData")
-
-cl_16S <- rdp()
-cl_16S
-
-pred <- predict(cl_16S, seq)
-pred
-
-attr(pred, "confidence")
-
-### Train a custom RDP classifier on new data
+## Train a RDP classifier on new data
 trainingSequences <- readDNAStringSet(
     system.file("examples/trainingSequences.fasta", package = "rRDP")
 )
 
-customRDP <- trainRDP(trainingSequences)
+customRDP <- trainRDP(trainingSequences, dir = "test_classifier")
 customRDP
 
 testSequences <- readDNAStringSet(
@@ -109,8 +96,39 @@ testSequences <- readDNAStringSet(
 )
 predict(customRDP, testSequences)
 
-## clean up
+## clean up (don't do this if you want to use the classifier later on again)
 removeRDP(customRDP)
+
+## Download a pretrained model manually
+\dontrun{
+# the download may take a while
+
+if (!file.exists("data")) {
+  if (!file.exists("data.tgz"))
+    download.file(paste0("https://master.dl.sourceforge.net/project/",
+      "rdp-classifier/rdp-classifier/data.tgz"), "data.tgz", mode = "wb")
+  untar("data.tgz")
+}
+  
+classifier <- rdp("data/classifier/16srrna")
+classifier
+
+seq <- readRNAStringSet(system.file("examples/RNA_example.fasta",
+    package = "rRDP"
+))
+
+# decode the actual classification
+actual <- decode_Greengenes(names(seq))
+
+# use RDP to predict the classification
+pred <- predict(classifier, seq)
+
+# calculate accuracy
+confusionTable(actual, pred, "genus")
+accuracy(actual, pred, "genus")
+
+# Don't forget to delete the models if you do not need them anymore
+}
 }
 \references{
 Hahsler M, Nagar A (2020). "rRDP: Interface to the RDP

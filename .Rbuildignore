@@ -13,4 +13,9 @@ _config.yml
 ^\.github$
 README.Rmd
 
+data
+data.tgz
+vignettes/data
+vignettes/data.tgz
+
 rRDP.BiocCheck/

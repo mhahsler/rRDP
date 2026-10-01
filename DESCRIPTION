@@ -3,8 +3,8 @@ Title: Interface to the RDP Classifier
 Description: This package installs and interfaces the naive Bayesian classifier for 16S rRNA 
   sequences developed by the Ribosomal Database Project (RDP). With this package the 
   classifier trained with the standard training set can be used or a custom classifier can be trained.
-Version: 1.43.0
-Date: 2024-03-26
+Version: 1.43.1
+Date: 2025-xx-xx
 Authors@R: c(person("Michael", "Hahsler", 
                 role = c("aut", "cre"),
                 email = "mhahsler@lyle.smu.edu",
@@ -16,11 +16,11 @@ biocViews: Genetics, Sequencing, Infrastructure, Classification,
 Depends: Biostrings (>= 2.26.2)
 BugReports: https://github.com/mhahsler/rRDP/issues
 URL: https://github.com/mhahsler/rRDP/
-Imports: rJava, utils
-Suggests: rRDPData, knitr, rmarkdown
+Imports: rJava, tools, utils
+Suggests: knitr, rmarkdown
 SystemRequirements: Java JDK 1.4 or higher
-License: GPL-2 + file LICENSE
+License: GPL-2
 VignetteBuilder: knitr
 Encoding: UTF-8
-RoxygenNote: 7.3.1
 Roxygen: list(markdown = TRUE)
+Config/roxygen2/version: 8.1.0
